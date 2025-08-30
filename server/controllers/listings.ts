@@ -43,6 +43,7 @@ export const getListings = async (req: Request, res: Response) => {
     const sortOptions: any = {};
     if (sort === 'price_low') sortOptions.price = 1;
     else if (sort === 'price_high') sortOptions.price = -1;
+    else if (sort === 'popular') sortOptions.views = -1;
     else sortOptions.createdAt = -1;
 
     const skip = (Number(page) - 1) * Number(limit);
