@@ -95,15 +95,14 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
+            <div className="hidden md:grid grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
               {categories.map((category: any) => (
-                <CategoryCard 
-                  key={category._id} 
-                  category={category} 
+                <CategoryCard
+                  key={category._id}
+                  category={category}
                   adCount={Math.floor(Math.random() * 2000) + 100}
                 />
               ))}
-              
               <Link to="/categories" data-testid="link-view-all-categories">
                 <div className="category-hover bg-muted rounded-xl p-6 text-center border border-border hover:shadow-md transition-all">
                   <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
@@ -113,6 +112,15 @@ export default function Home() {
                   <p className="text-xs text-muted-foreground">Categories</p>
                 </div>
               </Link>
+            </div>
+            <div className="md:hidden -mx-4 px-4 overflow-x-auto">
+              <div className="flex gap-3">
+                {categories.map((category: any) => (
+                  <div key={category._id} className="min-w-[96px]">
+                    <CategoryCard category={category} adCount={Math.floor(Math.random() * 2000) + 100} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
