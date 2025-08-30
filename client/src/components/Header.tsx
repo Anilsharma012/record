@@ -2,7 +2,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { SearchBar } from './SearchBar';
 import { UserDropdown } from './UserDropdown';
 import { Button } from '@/components/ui/button';
-import { Plus, Download } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Link } from 'wouter';
 
 export function Header() {
@@ -36,16 +36,6 @@ export function Header() {
               <i className="fas fa-map-marker-alt mr-2"></i>
               <span className="max-w-[140px] truncate" data-testid="text-location">Budha Khera, Rohtak</span>
             </div>
-
-            {/* PWA Install Button */}
-            <Button
-              id="install-btn"
-              className="install-prompt h-10 px-3 bg-white/10 hover:bg-white/20 text-white border-none rounded-full"
-              data-testid="button-install-app"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Install App
-            </Button>
 
             {/* Post Ad Button */}
             <Link to="/post-ad" data-testid="link-post-ad">
