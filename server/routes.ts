@@ -40,6 +40,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Middleware
   app.use(cookieParser());
 
+  // Health
+  app.get('/api/ping', (_req, res) => res.send('pong'));
+  app.get('/api/health', async (_req, res) => {
+    try {
+      const { mongoose } = await import('./utils/database');
+      const dbOk = mongoose.connection.readyState === 1;
+      res.json({ ok: true, dbOk });
+    } catch (e: any) {
+      res.status(500).json({ ok: false, message: e.message });
+    }
+  });
+
   // Auth routes
   app.post('/api/auth/register', register);
   app.post('/api/auth/login', login);
