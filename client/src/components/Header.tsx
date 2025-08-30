@@ -77,7 +77,7 @@ export function Header() {
       {/* Category Navigation */}
       <div className="bg-white border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center space-x-8 h-12 overflow-x-auto">
+          <div className="relative flex items-center space-x-8 h-12 overflow-x-auto">
             <Link to="/category/cars" className="text-sm text-foreground hover:text-primary whitespace-nowrap transition-colors" data-testid="link-category-cars">
               Cars
             </Link>
@@ -102,9 +102,48 @@ export function Header() {
             <Link to="/category/electronics" className="text-sm text-foreground hover:text-primary whitespace-nowrap transition-colors" data-testid="link-category-electronics">
               Electronics & Appliances
             </Link>
-            <Link to="/category/other" className="text-sm text-foreground hover:text-primary whitespace-nowrap transition-colors" data-testid="link-category-other">
-              Other
-            </Link>
+            <div className="group relative">
+              <button className="text-sm text-foreground hover:text-primary whitespace-nowrap transition-colors">Other ▾</button>
+              <div className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity absolute left-0 top-full mt-2 w-[920px] bg-white border border-border rounded-lg shadow-lg p-6 z-40">
+                <div className="grid grid-cols-4 gap-8 text-sm">
+                  <div>
+                    <h4 className="font-semibold mb-2">Commercial Vehicles & Spares</h4>
+                    <ul className="space-y-1 text-foreground/80">
+                      <li><Link to="/category/commercial">Commercial & Other Vehicles</Link></li>
+                      <li><Link to="/category/spares">Spare Parts</Link></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Furniture</h4>
+                    <ul className="space-y-1 text-foreground/80">
+                      <li><Link to="/category/furniture">Sofa & Dining</Link></li>
+                      <li><Link to="/category/furniture">Beds & Wardrobes</Link></li>
+                      <li><Link to="/category/furniture">Home Decor & Garden</Link></li>
+                      <li><Link to="/category/furniture">Kids Furniture</Link></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Pets</h4>
+                    <ul className="space-y-1 text-foreground/80">
+                      <li><Link to="/category/pets">Fish & Aquarium</Link></li>
+                      <li><Link to="/category/pets">Pet Food & Accessories</Link></li>
+                      <li><Link to="/category/pets">Dogs</Link></li>
+                      <li><Link to="/category/pets">Other Pets</Link></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Services</h4>
+                    <ul className="space-y-1 text-foreground/80">
+                      <li><Link to="/services/education">Education & Classes</Link></li>
+                      <li><Link to="/services/tours">Tours & Travel</Link></li>
+                      <li><Link to="/services/repair">Electronics Repair & Services</Link></li>
+                      <li><Link to="/services/health">Health & Beauty</Link></li>
+                      <li><Link to="/services/renovation">Home Renovation & Repair</Link></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
