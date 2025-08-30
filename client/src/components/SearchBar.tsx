@@ -15,8 +15,8 @@ export function SearchBar() {
     const params = new URLSearchParams();
     
     if (searchQuery) params.set('search', searchQuery);
-    if (selectedCategory) params.set('category', selectedCategory);
-    
+    if (selectedCategory && selectedCategory !== 'all') params.set('category', selectedCategory);
+
     setLocation(`/listings${params.toString() ? `?${params.toString()}` : ''}`);
   };
 
