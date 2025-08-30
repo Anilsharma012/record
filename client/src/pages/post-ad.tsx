@@ -38,6 +38,14 @@ export default function PostAd() {
   const { toast } = useToast();
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
+  const moveImage = (from: number, to: number) => {
+    setUploadedImages(prev => {
+      const next = [...prev];
+      const [spliced] = next.splice(from, 1);
+      next.splice(to, 0, spliced);
+      return next;
+    });
+  };
 
   const form = useForm<PostAdForm>({
     resolver: zodResolver(postAdSchema),
@@ -93,7 +101,7 @@ export default function PostAd() {
   });
 
   const handleImageUpload = async (files: FileList) => {
-    if (uploadedImages.length + files.length > 8) {
+    if (uploadedImages.length + files.length > 10) {
       toast({
         title: 'Too many images',
         description: 'You can upload a maximum of 8 images',
@@ -377,7 +385,7 @@ export default function PostAd() {
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-foreground">Photos</h3>
                   <p className="text-sm text-muted-foreground">
-                    Upload up to 8 photos to showcase your item
+                    Upload up to 10 photos to showcase your item
                   </p>
                   
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -389,20 +397,24 @@ export default function PostAd() {
                           className="w-full h-full object-cover rounded-lg border"
                           data-testid={`img-uploaded-${index}`}
                         />
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          className="absolute top-2 right-2 w-6 h-6 p-0"
-                          onClick={() => removeImage(index)}
-                          data-testid={`button-remove-image-${index}`}
-                        >
-                          <X className="w-3 h-3" />
-                        </Button>
+                        <div className="absolute top-2 right-2 flex gap-1">
+                          <Button type="button" size="sm" className="w-6 h-6 p-0" onClick={() => moveImage(index, Math.max(0, index-1))}>↑</Button>
+                          <Button type="button" size="sm" className="w-6 h-6 p-0" onClick={() => moveImage(index, Math.min(uploadedImages.length-1, index+1))}>↓</Button>
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            className="w-6 h-6 p-0"
+                            onClick={() => removeImage(index)}
+                            data-testid={`button-remove-image-${index}`}
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
                       </div>
                     ))}
                     
-                    {uploadedImages.length < 8 && (
+                    {uploadedImages.length < 10 && (
                       <Label className="aspect-square border-2 border-dashed border-muted-foreground/25 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors">
                         <Input
                           type="file"
@@ -447,13 +459,13 @@ export default function PostAd() {
                     type="button"
                     className="flex-1"
                     onClick={() => {
-                      form.setValue('status', 'active');
+                      form.setValue('status', 'pending');
                       form.handleSubmit(onSubmit)();
                     }}
                     disabled={createListingMutation.isPending}
                     data-testid="button-publish"
                   >
-                    {createListingMutation.isPending ? 'Publishing...' : 'Publish Ad'}
+                    {createListingMutation.isPending ? 'Submitting...' : 'Submit for Review'}
                   </Button>
                 </div>
               </form>
