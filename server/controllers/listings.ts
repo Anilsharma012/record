@@ -101,6 +101,8 @@ export const createListing = async (req: AuthRequest, res: Response) => {
 
     const listing = new Listing({
       ...validatedData,
+      // if client sends 'active' treat as 'pending' for moderation
+      status: validatedData.status === 'active' ? 'pending' : validatedData.status,
       userId: req.user._id
     });
 
