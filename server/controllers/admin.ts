@@ -33,11 +33,11 @@ export const getDashboardStats = async (req: Request, res: Response) => {
 export const updateListingStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { status, isFeatured, isUrgent } = req.body;
+    const { status, isFeatured, isUrgent, rejectionReason } = req.body;
 
     const listing = await Listing.findByIdAndUpdate(
       id,
-      { status, isFeatured, isUrgent },
+      { status, isFeatured, isUrgent, rejectionReason },
       { new: true }
     ).populate('userId', 'name email');
 
