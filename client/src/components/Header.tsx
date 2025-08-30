@@ -4,63 +4,69 @@ import { SearchBar } from './SearchBar';
 import { UserDropdown } from './UserDropdown';
 import { Button } from '@/components/ui/button';
 import { Plus, Download } from 'lucide-react';
+import { Link } from 'wouter';
 
 export function Header() {
   const { user } = useAuth();
 
   return (
     <header className="bg-primary shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-[68px]">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" data-testid="link-home">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                <div className="w-9 h-9 bg-white rounded-md flex items-center justify-center">
                   <i className="fas fa-bolt text-primary text-lg"></i>
                 </div>
-                <span className="text-white text-xl font-bold">Posttrr</span>
+                <span className="text-white text-2xl font-bold tracking-tight">POSTTRR</span>
               </div>
             </Link>
           </div>
           
           {/* Search Bar */}
-          <div className="flex-1 max-w-2xl mx-4 lg:mx-8">
+          <div className="flex-1 max-w-3xl mx-4 lg:mx-8">
             <SearchBar />
           </div>
           
           {/* Location & Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             {/* Location */}
-            <div className="hidden md:flex items-center text-white/90 text-sm">
-              <i className="fas fa-map-marker-alt mr-1"></i>
-              <span data-testid="text-location">Rohtak, Haryana</span>
+            <div className="hidden md:flex items-center text-white/95 text-sm bg-white/10 hover:bg-white/15 px-3 h-10 rounded-full">
+              <i className="fas fa-map-marker-alt mr-2"></i>
+              <span className="max-w-[140px] truncate" data-testid="text-location">Budha Khera, Rohtak</span>
             </div>
-            
+
             {/* PWA Install Button */}
-            <Button 
-              id="install-btn" 
-              className="install-prompt bg-white/10 hover:bg-white/20 text-white border-none"
+            <Button
+              id="install-btn"
+              className="install-prompt h-10 px-3 bg-white/10 hover:bg-white/20 text-white border-none rounded-full"
               data-testid="button-install-app"
             >
-              <Download className="w-4 h-4 mr-1" />
+              <Download className="w-4 h-4 mr-2" />
               Install App
             </Button>
-            
+
             {/* Post Ad Button */}
             <Link to="/post-ad" data-testid="link-post-ad">
-              <Button className="bg-white text-primary hover:bg-white/90">
-                <Plus className="w-4 h-4 mr-1" />
-                Post Ad
+              <Button className="h-10 px-4 rounded-full bg-transparent border border-white text-white hover:bg-white/10">
+                Ad Listing
               </Button>
             </Link>
-            
+
+            {/* Language */}
+            <div className="hidden md:flex items-center h-10 px-3 rounded-full bg-white/10 text-white text-sm">
+              <span className="mr-2">🌐</span>
+              en
+            </div>
+
             {/* User Menu */}
             {user ? (
               <UserDropdown />
             ) : (
               <Link to="/login" data-testid="link-login">
-                <Button variant="ghost" className="text-white hover:text-white/80">
+                <Button variant="ghost" className="h-10 px-3 text-white hover:text-white/80 rounded-full">
                   Sign In
                 </Button>
               </Link>
