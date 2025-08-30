@@ -142,7 +142,7 @@ export default function Home() {
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {featuredListings.slice(0, 4).map((listing: any) => (
                 <ListingCard 
                   key={listing._id} 
