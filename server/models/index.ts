@@ -7,3 +7,4 @@ export { LocationCity, LocationArea } from './Location';
 export { Order } from './Order';
 export { Report } from './Report';
 export { Analytics } from './Analytics';
+export { Favorite } from './Favorite';
