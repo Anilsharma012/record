@@ -57,6 +57,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/listings', getListings);
   app.get('/api/listings/featured', getFeaturedListings);
   app.get('/api/listings/:id', getListing);
+  app.post('/api/listings/:id/favorite', authenticate, toggleFavorite);
+  app.get('/api/users/me/favorites', authenticate, listFavorites);
+  app.post('/api/listings/:id/report', authenticate, reportListing);
   app.get('/api/banners', listBanners);
   app.post('/api/reports', authenticate, createReport);
   app.post('/api/analytics/click', trackClick);
