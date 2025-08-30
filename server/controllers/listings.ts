@@ -157,9 +157,9 @@ export const deleteListing = async (req: AuthRequest, res: Response) => {
 
 export const getFeaturedListings = async (req: Request, res: Response) => {
   try {
-    const listings = await Listing.find({ 
-      status: 'active', 
-      isFeatured: true 
+    const listings = await Listing.find({
+      status: 'active',
+      isFeatured: true
     })
       .populate('userId', 'name avatar')
       .populate('categoryId', 'name')
@@ -167,6 +167,19 @@ export const getFeaturedListings = async (req: Request, res: Response) => {
       .limit(8);
 
     res.json(listings);
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const reportListing = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body || {};
+    const { Report } = await import('../models/Report');
+    const report = new Report({ listingId: id, reason, reporterId: req.user._id });
+    await report.save();
+    res.status(201).json({ ok: true, data: report });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
