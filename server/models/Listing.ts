@@ -33,6 +33,7 @@ const listingSchema = new mongoose.Schema({
   isUrgent: { type: Boolean, default: false },
   views: { type: Number, default: 0 },
   favoritesCount: { type: Number, default: 0 },
+  rejectionReason: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
