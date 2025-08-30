@@ -7,14 +7,16 @@ import { initRealtime } from './realtime';
 
 // Controllers
 import { register, login, logout, getProfile, updateProfile } from './controllers/auth';
-import { 
-  getListings, 
-  getListing, 
-  createListing, 
-  updateListing, 
+import {
+  getListings,
+  getListing,
+  createListing,
+  updateListing,
   deleteListing,
-  getFeaturedListings
+  getFeaturedListings,
+  reportListing
 } from './controllers/listings';
+import { toggleFavorite, listFavorites } from './controllers/favorites';
 import { getCategories, getSubcategories, createCategory, updateCategory, deleteCategory, createSubcategory, updateSubcategory, deleteSubcategory, adminGetCategories, adminListSubcategories } from './controllers/categories';
 import { getCities, getAreas, createCity, updateCity, deleteCity, createArea, updateArea, deleteArea, adminGetCities, adminGetAreas, adminGetCountries, createCountry, updateCountry, deleteCountry, adminGetStates, createState, updateState, deleteState } from './controllers/locations';
 import { listPackages, listPricingRules, createPackage, updatePackage, deletePackage, createPriceRule, updatePriceRule, deletePriceRule, adminListPackages, adminListPricingRules } from './controllers/packages';
