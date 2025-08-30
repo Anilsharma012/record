@@ -25,26 +25,15 @@ export async function toggleFavorite(listingId: string): Promise<void> {
     method: 'POST',
     credentials: 'include'
   });
-
-  if (!response.ok) {
-    throw new Error('Failed to toggle favorite');
-  }
-
-  // Invalidate relevant queries
-  queryClient.invalidateQueries({ queryKey: ['/api/listings'] });
+  if (!response.ok) throw new Error('Failed to toggle favorite');
 }
 
 export async function reportListing(listingId: string, reason: string): Promise<void> {
   const response = await fetch(`/api/listings/${listingId}/report`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
     body: JSON.stringify({ reason })
   });
-
-  if (!response.ok) {
-    throw new Error('Failed to report listing');
-  }
+  if (!response.ok) throw new Error('Failed to report listing');
 }
