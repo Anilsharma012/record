@@ -47,6 +47,7 @@ import Favorites from "@/pages/favorites";
 import Transactions from "@/pages/transactions";
 import Reviews from "@/pages/reviews";
 import ChatThreadPage from "@/pages/chat-thread";
+import BottomNav from "@/components/BottomNav";
 
 function Router() {
   return (
@@ -110,6 +111,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <BottomNav />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
