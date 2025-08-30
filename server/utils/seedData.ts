@@ -27,21 +27,21 @@ export async function seedDatabase() {
       );
     }
 
-    // Seed admin user
-    let adminExists = await User.findOne({ email: 'admin@posttrr.com' });
+    // Seed admin user (demo)
+    let adminExists = await User.findOne({ email: 'admin@demo.com' });
     if (!adminExists) {
       adminExists = new User({
-        name: 'Admin User',
-        email: 'admin@posttrr.com',
-        password: 'Admin@123',
+        name: 'Admin',
+        email: 'admin@demo.com',
+        password: '123456',
         role: 'admin'
       });
       await adminExists.save();
-      console.log('Admin user created: admin@posttrr.com / Admin@123');
+      console.log('Admin user created: admin@demo.com / 123456');
     } else {
-      adminExists.password = 'Admin@123';
+      adminExists.password = '123456';
       await adminExists.save();
-      console.log('Admin user password reset to Admin@123');
+      console.log('Admin user password reset to 123456');
     }
 
     // Seed packages
@@ -150,15 +150,15 @@ export async function seedDatabase() {
     }
 
     // Seed a seller and demo listings
-    let seller = await User.findOne({ email: 'seller@posttrr.com' });
+    let seller = await User.findOne({ email: 'seller@demo.com' });
     if (!seller) {
-      seller = new User({ name: 'Seller One', email: 'seller@posttrr.com', password: 'Seller@123', role: 'seller' });
+      seller = new User({ name: 'Seller Demo', email: 'seller@demo.com', password: '123456', role: 'seller' });
       await seller.save();
-      console.log('Seller user created: seller@posttrr.com / Seller@123');
+      console.log('Seller user created: seller@demo.com / 123456');
     } else {
-      seller.password = 'Seller@123';
+      seller.password = '123456';
       await seller.save();
-      console.log('Seller user password reset to Seller@123');
+      console.log('Seller user password reset to 123456');
     }
     const firstCat = await Category.findOne();
     if (seller && firstCat) {
@@ -186,10 +186,26 @@ export async function seedDatabase() {
       { upsert: true }
     );
 
+    // Ensure seller has active Premium subscription
+    try {
+      const { Package } = await import('../models/Package');
+      const { Subscription } = await import('../models/Subscription');
+      const premiumPack = await Package.findOne({ name: 'Featured' }) || await Package.findOne({ name: 'Premium' });
+      if (seller && premiumPack) {
+        const now = new Date();
+        const end = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+        await Subscription.findOneAndUpdate(
+          { sellerId: seller._id, packageId: premiumPack._id },
+          { sellerId: seller._id, packageId: premiumPack._id, startAt: now, endAt: end, remainingListings: 20, remainingFeatured: 5, remainingBumps: 5, status: 'active' },
+          { upsert: true }
+        );
+      }
+    } catch {}
+
     // Seed a buyer user and a chat thread
-    let buyer = await User.findOne({ email: 'buyer@posttrr.com' });
+    let buyer = await User.findOne({ email: 'buyer@demo.com' });
     if (!buyer) {
-      buyer = new User({ name: 'Buyer User', email: 'buyer@posttrr.com', password: 'buyer123', role: 'user' });
+      buyer = new User({ name: 'Buyer Demo', email: 'buyer@demo.com', password: '123456', role: 'user' });
       await buyer.save();
     }
     try {
