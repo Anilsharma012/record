@@ -130,6 +130,7 @@ export const listingSchema = z.object({
   isUrgent: z.boolean().default(false),
   views: z.number().default(0),
   favoritesCount: z.number().default(0),
+  rejectionReason: z.string().optional(),
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date())
 });
