@@ -125,7 +125,7 @@ export const listingSchema = z.object({
   bathrooms: z.number().optional(),
   negotiable: z.boolean().default(false),
   tags: z.array(z.string()).default([]),
-  status: z.enum(['draft','pending','active','sold','rejected','expired']).default('draft'),
+  status: z.enum(['draft','pending','active','paused','sold','rejected','expired']).default('draft'),
   isFeatured: z.boolean().default(false),
   isUrgent: z.boolean().default(false),
   views: z.number().default(0),
