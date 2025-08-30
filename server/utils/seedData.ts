@@ -12,11 +12,14 @@ export async function seedDatabase() {
       { name: 'Properties', slug: 'properties', icon: 'fas fa-building' },
       { name: 'Mobiles', slug: 'mobiles', icon: 'fas fa-mobile-alt' },
       { name: 'Jobs', slug: 'jobs', icon: 'fas fa-briefcase' },
-      { name: 'Fashion', slug: 'fashion', icon: 'fas fa-tshirt' },
-      { name: 'Books, Sports & Hobbies', slug: 'books-sports', icon: 'fas fa-book' },
       { name: 'Bikes', slug: 'bikes', icon: 'fas fa-motorcycle' },
       { name: 'Electronics & Appliances', slug: 'electronics', icon: 'fas fa-tv' },
-      { name: 'Commercial Vehicles & Spares', slug: 'commercial', icon: 'fas fa-truck' }
+      { name: 'Furniture', slug: 'furniture', icon: 'fas fa-couch' },
+      { name: 'Fashion', slug: 'fashion', icon: 'fas fa-tshirt' },
+      { name: 'Pets', slug: 'pets', icon: 'fas fa-paw' },
+      { name: 'Commercial Vehicles', slug: 'commercial', icon: 'fas fa-truck' },
+      { name: 'Others', slug: 'others', icon: 'fas fa-ellipsis-h' },
+      { name: 'Books, Sports & Hobbies', slug: 'books-sports', icon: 'fas fa-book' }
     ];
 
     for (const categoryData of categoriesData) {
