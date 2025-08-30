@@ -1,14 +1,23 @@
 import { queryClient } from './queryClient';
 
 export async function uploadImage(file: File): Promise<string> {
-  // Mock implementation for now - would integrate with Cloudinary
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      resolve(reader.result as string);
-    };
+  const img = document.createElement('img');
+  const reader = new FileReader();
+  const dataUrl: string = await new Promise((resolve) => {
+    reader.onload = () => resolve(reader.result as string);
     reader.readAsDataURL(file);
   });
+  img.src = dataUrl;
+  await new Promise(res => (img.onload = () => res(undefined)));
+  const canvas = document.createElement('canvas');
+  const maxW = 1600;
+  const scale = Math.min(1, maxW / img.width);
+  canvas.width = Math.round(img.width * scale);
+  canvas.height = Math.round(img.height * scale);
+  const ctx = canvas.getContext('2d')!;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  const compressed = canvas.toDataURL('image/jpeg', 0.8);
+  return compressed;
 }
 
 export async function toggleFavorite(listingId: string): Promise<void> {
