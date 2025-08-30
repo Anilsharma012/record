@@ -1,4 +1,3 @@
-import { Link } from 'wouter';
 import { useAuth } from '@/contexts/AuthContext';
 import { SearchBar } from './SearchBar';
 import { UserDropdown } from './UserDropdown';
