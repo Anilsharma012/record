@@ -63,6 +63,11 @@ const sidebarItems = [
     icon: Bell
   },
   {
+    title: 'Promotions',
+    href: '/admin/promotions',
+    icon: Tag
+  },
+  {
     title: 'Analytics',
     href: '/admin/analytics',
     icon: BarChart
