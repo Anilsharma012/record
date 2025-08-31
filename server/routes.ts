@@ -74,6 +74,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/listings/:id/report', authenticate, reportListing);
   app.get('/api/banners', listBanners);
   app.post('/api/reports', authenticate, createReport);
+  app.get('/api/reports/reasons', listReportReasons);
   app.post('/api/analytics/click', trackClick);
   app.post('/api/analytics/save', trackSave);
 
