@@ -170,10 +170,14 @@ export const verify = async (req: AuthRequest, res: Response) => {
 export const phonepeCallback = async (req: AuthRequest, res: Response) => {
   try {
     const orderId = (req.query.orderId as string) || (req.body?.orderId as string) || '';
-    const merchantId = process.env.PHONEPE_MERCHANT_ID || '';
-    const envBase = process.env.PHONEPE_ENV === 'prod' ? 'https://api.phonepe.com/apis/hermes' : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
+    const phonepeConf = await getGatewayCreds('phonepe');
+    const merchantId = ((phonepeConf.creds as any)?.merchantId || process.env.PHONEPE_MERCHANT_ID || '') as string;
+    const phonepeEnv = ((phonepeConf.creds as any)?.env || process.env.PHONEPE_ENV) as string | undefined;
+    const saltKey = ((phonepeConf.creds as any)?.saltKey || process.env.PHONEPE_SALT_KEY || '') as string;
+    const saltIndex = ((phonepeConf.creds as any)?.saltIndex || process.env.PHONEPE_SALT_INDEX || '1') as string;
+    const envBase = phonepeEnv === 'prod' ? 'https://api.phonepe.com/apis/hermes' : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
     const path = `/pg/v1/status/${merchantId}/${orderId}`;
-    const headers = createPhonePeHeaders(path, '');
+    const headers = createPhonePeHeaders(path, '', saltKey, saltIndex, merchantId);
     const r = await fetch(`${envBase}${path}`, { method: 'GET', headers });
     const j = await r.json().catch(() => ({}));
 
