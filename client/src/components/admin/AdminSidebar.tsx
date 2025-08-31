@@ -76,6 +76,11 @@ const sidebarItems = [
     title: 'Pages',
     href: '/admin/pages',
     icon: FileText
+  },
+  {
+    title: 'Banners',
+    href: '/admin/banners',
+    icon: Home
   }
 ];
 
