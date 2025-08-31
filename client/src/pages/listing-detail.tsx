@@ -1,5 +1,5 @@
 import { useParams } from 'wouter';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -9,14 +9,34 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Heart, MessageCircle, Flag, Eye, MapPin, Calendar, Tag } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function ListingDetail() {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+  const [reason, setReason] = useState('');
 
   const { data: listing, isLoading } = useQuery({
     queryKey: [`/api/listings/${id}`],
     enabled: !!id
+  });
+
+  const { data: reasons } = useQuery({ queryKey: ['/api/reports/reasons'] });
+
+  const reportMutation = useMutation({
+    mutationFn: async () => {
+      const { apiRequest } = await import('@/lib/queryClient');
+      const res = await apiRequest('POST', `/api/listings/${id}/report`, { reason });
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: 'Report submitted', description: 'Thank you for helping keep our marketplace safe' });
+      setOpen(false);
+      setReason('');
+    },
+    onError: (e: any) => toast({ title: 'Failed to submit report', description: e.message, variant: 'destructive' })
   });
 
   const listingData = listing as any;
@@ -29,13 +49,6 @@ export default function ListingDetail() {
     } catch (e: any) {
       toast({ title: 'Could not open chat', description: e.message, variant: 'destructive' });
     }
-  };
-
-  const handleReport = () => {
-    toast({
-      title: 'Report submitted',
-      description: 'Thank you for helping keep our marketplace safe'
-    });
   };
 
   if (isLoading) {
