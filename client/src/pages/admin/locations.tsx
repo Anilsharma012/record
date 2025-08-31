@@ -13,9 +13,13 @@ export default function AdminLocations() {
   const [, setLocation] = useLocation();
   const [cityForm, setCityForm] = useState({ id: '', name: '', slug: '', state: '' });
   const [areaForm, setAreaForm] = useState({ id: '', cityId: '', name: '', slug: '', pincode: '' });
+  const [countryForm, setCountryForm] = useState({ id: '', name: '', slug: '', code: '' });
+  const [stateForm, setStateForm] = useState({ id: '', countryId: '', name: '', slug: '' });
 
   const { data: cities } = useQuery({ queryKey: ['/api/locations/cities'] });
   const { data: areas } = useQuery({ queryKey: ['/api/locations/areas', areaForm.cityId ? { cityId: areaForm.cityId } : undefined] });
+  const { data: countries } = useQuery({ queryKey: ['/api/admin/locations/countries'] });
+  const { data: states } = useQuery({ queryKey: ['/api/admin/locations/states', stateForm.countryId ? { countryId: stateForm.countryId } : undefined] });
 
   const saveCity = useMutation({
     mutationFn: async () => {
@@ -41,6 +45,30 @@ export default function AdminLocations() {
     }
   });
 
+  const saveCountry = useMutation({
+    mutationFn: async () => {
+      const payload = { name: countryForm.name, slug: countryForm.slug, code: countryForm.code };
+      const res = await apiRequest(countryForm.id ? 'PUT' : 'POST', countryForm.id ? `/api/admin/locations/countries/${countryForm.id}` : '/api/admin/locations/countries', payload);
+      return res.json();
+    },
+    onSuccess: () => {
+      setCountryForm({ id: '', name: '', slug: '', code: '' });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/locations/countries'] });
+    }
+  });
+
+  const saveState = useMutation({
+    mutationFn: async () => {
+      const payload = { countryId: stateForm.countryId, name: stateForm.name, slug: stateForm.slug };
+      const res = await apiRequest(stateForm.id ? 'PUT' : 'POST', stateForm.id ? `/api/admin/locations/states/${stateForm.id}` : '/api/admin/locations/states', payload);
+      return res.json();
+    },
+    onSuccess: () => {
+      setStateForm({ id: '', countryId: '', name: '', slug: '' });
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/locations/states'] });
+    }
+  });
+
   if (!user || user.role !== 'admin') {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -61,6 +89,62 @@ export default function AdminLocations() {
         <AdminSidebar />
         <main className="flex-1 p-8">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Countries</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="space-y-2">
+                  {(countries?.data || []).map((c: any) => (
+                    <div key={c._id} className="p-3 border rounded flex items-center justify-between">
+                      <div>
+                        <div className="font-medium">{c.name}</div>
+                        <div className="text-xs text-muted-foreground">{c.code || '-'} • /{c.slug}</div>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => setCountryForm({ id: c._id, name: c.name, slug: c.slug, code: c.code || '' })}>Edit</Button>
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <Input placeholder="Name" value={countryForm.name} onChange={e => setCountryForm({ ...countryForm, name: e.target.value })} />
+                  <Input placeholder="Slug" value={countryForm.slug} onChange={e => setCountryForm({ ...countryForm, slug: e.target.value })} />
+                  <Input placeholder="Code (optional)" value={countryForm.code} onChange={e => setCountryForm({ ...countryForm, code: e.target.value })} />
+                </div>
+                <div className="flex gap-2">
+                  <Button onClick={() => saveCountry.mutate()}>{countryForm.id ? 'Update' : 'Create'}</Button>
+                  <Button variant="outline" onClick={() => setCountryForm({ id: '', name: '', slug: '', code: '' })}>Clear</Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>States</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <Input placeholder="Country Id" value={stateForm.countryId} onChange={e => setStateForm({ ...stateForm, countryId: e.target.value })} />
+                  <Input placeholder="Name" value={stateForm.name} onChange={e => setStateForm({ ...stateForm, name: e.target.value })} />
+                  <Input placeholder="Slug" value={stateForm.slug} onChange={e => setStateForm({ ...stateForm, slug: e.target.value })} />
+                </div>
+                <div className="space-y-2">
+                  {(states?.data || []).map((s: any) => (
+                    <div key={s._id} className="p-3 border rounded flex items-center justify-between">
+                      <div>
+                        <div className="font-medium">{s.name}</div>
+                        <div className="text-xs text-muted-foreground">country: {s.countryId} • /{s.slug}</div>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => setStateForm({ id: s._id, countryId: s.countryId, name: s.name, slug: s.slug })}>Edit</Button>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <Button onClick={() => saveState.mutate()}>{stateForm.id ? 'Update' : 'Create'}</Button>
+                  <Button variant="outline" onClick={() => setStateForm({ id: '', countryId: '', name: '', slug: '' })}>Clear</Button>
+                </div>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle>Cities</CardTitle>
