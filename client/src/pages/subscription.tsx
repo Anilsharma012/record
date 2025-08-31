@@ -93,7 +93,10 @@ export default function Subscription() {
               <Input placeholder="Area Id (optional)" value={selection.areaId} onChange={e => setSelection({ ...selection, areaId: e.target.value })} />
             </div>
             <div className="text-sm text-muted-foreground">Price: ₹{computedPrice}</div>
-            <Button disabled={!user || !selection.packageId} onClick={() => checkoutMutation.mutate()}>{checkoutMutation.isPending ? 'Processing...' : 'Checkout'}</Button>
+            <div className="flex gap-2">
+              <Button disabled={!user || !selection.packageId} onClick={() => checkoutMutation.mutate()}>{checkoutMutation.isPending ? 'Processing...' : 'Pay Online'}</Button>
+              <Button variant="outline" disabled={!user || !selection.packageId} onClick={() => manualMutation.mutate()}>{manualMutation.isPending ? 'Saving...' : 'Manual Payment'}</Button>
+            </div>
           </CardContent>
         </Card>
 
