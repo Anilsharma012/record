@@ -68,6 +68,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/locations/areas', getAreas);
   app.get('/api/packages', listPackages);
   app.get('/api/pricing/rules', listPricingRules);
+  app.get('/api/gateways/public', publicGateways);
   app.get('/api/listings', getListings);
   app.get('/api/listings/featured', getFeaturedListings);
   app.get('/api/listings/:id', getListing);
@@ -91,6 +92,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Admin routes
   app.get('/api/admin/dashboard', authenticate, requireAdmin, getDashboardStats);
+  app.get('/api/admin/gateways', authenticate, requireAdmin, adminListGateways);
+  app.post('/api/admin/gateways', authenticate, requireAdmin, createGateway);
+  app.put('/api/admin/gateways/:id', authenticate, requireAdmin, updateGateway);
+  app.delete('/api/admin/gateways/:id', authenticate, requireAdmin, deleteGateway);
+  app.get('/api/admin/transactions', authenticate, requireAdmin, adminListTransactions);
+  app.put('/api/admin/transactions/:id/mark-paid', authenticate, requireAdmin, adminMarkPaid);
   app.get('/api/admin/analytics', authenticate, requireAdmin, adminAnalytics);
 
   // Admin: reports & reasons
@@ -168,6 +175,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Orders
   app.post('/api/orders/checkout', authenticate, checkout);
+  app.post('/api/orders/manual', authenticate, manual);
   app.post('/api/orders/verify', authenticate, verify);
   app.post('/api/orders/phonepe/callback', phonepeCallback);
   app.get('/api/orders/phonepe/callback', phonepeCallback);
