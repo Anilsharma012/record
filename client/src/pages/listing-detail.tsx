@@ -1,4 +1,3 @@
-import { useParams } from 'wouter';
 import { useState } from 'react';
 import { useParams } from 'wouter';
 import { useQuery, useMutation } from '@tanstack/react-query';
@@ -269,7 +268,7 @@ export default function ListingDetail() {
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>• Meet in a public place</li>
                   <li>• Check the item carefully before buying</li>
-                  <li>• Don't pay in advance</li>
+                  <li>��� Don't pay in advance</li>
                   <li>• Report suspicious activity</li>
                 </ul>
               </CardContent>
