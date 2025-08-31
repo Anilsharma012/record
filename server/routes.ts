@@ -24,7 +24,7 @@ import { createReport, listReports, updateReport, deleteReport, adminListReportR
 import { trackClick, trackSave, adminAnalytics } from './controllers/analytics';
 import { getDashboardStats, updateListingStatus, adminListListings, adminCreateListing, adminUpdateListing, adminDeleteListing, moderateListing } from './controllers/admin';
 import { listPages, getPageBySlug, createPage, updatePage, deletePage, adminListPages } from './controllers/pages';
-import { checkout, webhook, verify } from './controllers/orders';
+import { checkout, webhook, verify, phonepeCallback } from './controllers/orders';
 import { listBanners, adminListBanners, createBanner, updateBanner, deleteBanner } from './controllers/banners';
 import { adminListUsers, adminUpdateUser } from './controllers/users';
 import { openThread, listMessages, sendMessage, listThreads, markRead, unreadCount } from './controllers/chats';
@@ -166,6 +166,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Orders
   app.post('/api/orders/checkout', authenticate, checkout);
   app.post('/api/orders/verify', authenticate, verify);
+  app.post('/api/orders/phonepe/callback', phonepeCallback);
+  app.get('/api/orders/phonepe/callback', phonepeCallback);
   app.post('/api/orders/webhook', webhook);
 
   // Chats

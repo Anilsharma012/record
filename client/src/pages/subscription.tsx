@@ -33,6 +33,11 @@ export default function Subscription() {
       const res = await apiRequest('POST', '/api/orders/checkout', { packageId: selection.packageId, cityId: selection.cityId || undefined, areaId: selection.areaId || undefined });
       const data = await res.json();
 
+      if (data.gateway === 'phonepe' && data.redirectUrl) {
+        window.location.href = data.redirectUrl;
+        return data;
+      }
+
       if (data.gateway === 'razorpay' && (window as any).Razorpay) {
         return await new Promise((resolve, reject) => {
           const rzp = new (window as any).Razorpay({
