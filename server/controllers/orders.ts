@@ -213,3 +213,17 @@ export const webhook = async (req: AuthRequest, res: Response) => {
     res.status(400).json({ message: e.message || 'Webhook error' });
   }
 };
+
+export const manual = async (req: AuthRequest, res: Response) => {
+  try {
+    const { packageId, cityId, areaId, note, attachmentUrl } = (req.body || {}) as any;
+    if (!Types.ObjectId.isValid(String(packageId))) return res.status(400).json({ message: 'Invalid packageId' });
+    const { price } = await computePrice(packageId, cityId, areaId);
+    const order = new Order({ userId: req.user?._id, packageId, price, cityId, areaId, status: 'pending' });
+    await order.save();
+    await new Transaction({ sellerId: req.user?._id, packageId, amount: price, currency: 'INR', orderId: String(order._id), status: 'pending', method: 'manual', note, attachmentUrl }).save();
+    res.json({ ok: true, localOrderId: order._id, status: 'pending' });
+  } catch (e: any) {
+    res.status(400).json({ message: e.message || 'Manual payment failed' });
+  }
+};
