@@ -53,6 +53,16 @@ const sidebarItems = [
     icon: Flag
   },
   {
+    title: 'Transactions',
+    href: '/admin/transactions',
+    icon: BarChart
+  },
+  {
+    title: 'Payment Gateways',
+    href: '/admin/gateways',
+    icon: Settings
+  },
+  {
     title: 'Packages & Pricing',
     href: '/admin/packages',
     icon: Tag
