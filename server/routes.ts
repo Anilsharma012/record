@@ -20,7 +20,7 @@ import { toggleFavorite, listFavorites } from './controllers/favorites';
 import { getCategories, getSubcategories, createCategory, updateCategory, deleteCategory, createSubcategory, updateSubcategory, deleteSubcategory, adminGetCategories, adminListSubcategories } from './controllers/categories';
 import { getCities, getAreas, createCity, updateCity, deleteCity, createArea, updateArea, deleteArea, adminGetCities, adminGetAreas, adminGetCountries, createCountry, updateCountry, deleteCountry, adminGetStates, createState, updateState, deleteState } from './controllers/locations';
 import { listPackages, listPricingRules, createPackage, updatePackage, deletePackage, createPriceRule, updatePriceRule, deletePriceRule, adminListPackages, adminListPricingRules } from './controllers/packages';
-import { createReport, listReports, updateReport, deleteReport, adminListReportReasons, createReportReason, updateReportReason, deleteReportReason } from './controllers/reports';
+import { createReport, listReports, updateReport, deleteReport, listReportReasons, adminListReportReasons, createReportReason, updateReportReason, deleteReportReason } from './controllers/reports';
 import { trackClick, trackSave, adminAnalytics } from './controllers/analytics';
 import { getDashboardStats, updateListingStatus, adminListListings, adminCreateListing, adminUpdateListing, adminDeleteListing, moderateListing } from './controllers/admin';
 import { listPages, getPageBySlug, createPage, updatePage, deletePage, adminListPages } from './controllers/pages';
