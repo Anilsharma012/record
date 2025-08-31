@@ -7,9 +7,11 @@ const transactionSchema = new mongoose.Schema({
   currency: { type: String, default: 'INR' },
   orderId: String,
   paymentId: String,
-  status: { type: String, enum: ['created','paid','failed','refunded'], default: 'created' },
+  status: { type: String, enum: ['created','pending','paid','failed','refunded'], default: 'created' },
   method: String,
   invoiceUrl: String,
+  note: String,
+  attachmentUrl: String,
   createdAt: { type: Date, default: Date.now }
 });
 
