@@ -75,10 +75,13 @@ export const checkout = async (req: AuthRequest, res: Response) => {
     await order.save();
 
     // Prefer PhonePe if configured
-    const merchantId = process.env.PHONEPE_MERCHANT_ID;
-    const saltKey = process.env.PHONEPE_SALT_KEY;
+    const phonepeConf = await getGatewayCreds('phonepe');
+    const merchantId = (phonepeConf.creds as any)?.merchantId || process.env.PHONEPE_MERCHANT_ID;
+    const saltKey = (phonepeConf.creds as any)?.saltKey || process.env.PHONEPE_SALT_KEY;
+    const saltIndex = (phonepeConf.creds as any)?.saltIndex || process.env.PHONEPE_SALT_INDEX || '1';
+    const phonepeEnv = (phonepeConf.creds as any)?.env || process.env.PHONEPE_ENV;
     if (merchantId && saltKey) {
-      const envBase = process.env.PHONEPE_ENV === 'prod'
+      const envBase = phonepeEnv === 'prod'
         ? 'https://api.phonepe.com/apis/hermes'
         : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
       const path = '/pg/v1/pay';
@@ -94,7 +97,7 @@ export const checkout = async (req: AuthRequest, res: Response) => {
         paymentInstrument: { type: 'PAY_PAGE' }
       };
       const base64 = Buffer.from(JSON.stringify(payload)).toString('base64');
-      const headers = createPhonePeHeaders(path, base64);
+      const headers = createPhonePeHeaders(path, base64, saltKey, saltIndex, merchantId);
       const r = await fetch(`${envBase}${path}`, {
         method: 'POST',
         headers,
