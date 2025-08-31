@@ -82,6 +82,7 @@ function Router() {
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/ads" component={AdsManagement} />
       <Route path="/admin/users" component={UsersManagement} />
+      <Route path="/admin/staff" component={AdminStaff} />
       <Route path="/admin/categories" component={AdminCategories} />
       <Route path="/admin/locations" component={AdminLocations} />
       <Route path="/admin/reports" component={AdminReports} />
