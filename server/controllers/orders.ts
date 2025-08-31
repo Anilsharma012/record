@@ -26,14 +26,12 @@ function getBaseUrl(req: any) {
   return `${req.protocol}://${req.get('host')}`;
 }
 
-function createPhonePeHeaders(path: string, base64Payload: string) {
-  const saltKey = process.env.PHONEPE_SALT_KEY || '';
-  const saltIndex = process.env.PHONEPE_SALT_INDEX || '1';
-  const xVerify = crypto.createHash('sha256').update(base64Payload + path + saltKey).digest('hex') + '###' + saltIndex;
+function createPhonePeHeaders(path: string, base64Payload: string, saltKey: string, saltIndex: string, merchantId: string) {
+  const xVerify = crypto.createHash('sha256').update(base64Payload + path + saltKey).digest('hex') + '###' + (saltIndex || '1');
   return {
     'Content-Type': 'application/json',
     'X-VERIFY': xVerify,
-    'X-MERCHANT-ID': process.env.PHONEPE_MERCHANT_ID || ''
+    'X-MERCHANT-ID': merchantId || ''
   } as Record<string, string>;
 }
 
