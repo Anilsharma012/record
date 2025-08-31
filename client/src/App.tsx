@@ -42,6 +42,8 @@ import AdminPricing from "@/pages/admin/pricing";
 import AdminBanners from "@/pages/admin/banners";
 import AdminPromotions from "@/pages/admin/promotions";
 import AdminStaff from "@/pages/admin/staff";
+import AdminGateways from "@/pages/admin/gateways";
+import AdminTransactions from "@/pages/admin/transactions";
 import Notifications from "@/pages/notifications";
 import Chat from "@/pages/chat";
 import Subscription from "@/pages/subscription";
