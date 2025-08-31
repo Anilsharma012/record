@@ -11,6 +11,10 @@ export default function Home() {
   const { data: categories = [] } = useQuery({
     queryKey: ['/api/categories']
   });
+  const stripRef = useRef<HTMLDivElement | null>(null);
+  const scrollBy = (dx: number) => {
+    if (stripRef.current) stripRef.current.scrollBy({ left: dx, behavior: 'smooth' });
+  };
 
   const { data: featuredListings = [] } = useQuery({
     queryKey: ['/api/listings/featured']
