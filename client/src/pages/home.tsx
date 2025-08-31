@@ -120,7 +120,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="md:hidden -mx-4">
-              <div className="categories-strip">
+              <div className="categories-strip" ref={stripRef}>
                 {categories.map((category: any) => (
                   <div key={category._id} className="min-w-[96px] snap-start">
                     <CategoryCard category={category} adCount={Math.floor(Math.random() * 2000) + 100} />
