@@ -51,6 +51,8 @@ import Transactions from "@/pages/transactions";
 import Reviews from "@/pages/reviews";
 import ChatThreadPage from "@/pages/chat-thread";
 import BottomNav from "@/components/BottomNav";
+import Fab from "@/components/Fab";
+import PWAInstall from "@/components/PWAInstall";
 
 function Router() {
   return (
