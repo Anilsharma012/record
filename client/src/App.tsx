@@ -119,6 +119,8 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <Fab />
+          <PWAInstall />
           <BottomNav />
         </TooltipProvider>
       </AuthProvider>
