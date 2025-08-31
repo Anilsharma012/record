@@ -4,8 +4,6 @@ import { UserDropdown } from './UserDropdown';
 import { Button } from '@/components/ui/button';
 import { Heart, Bell, MapPin } from 'lucide-react';
 import { Link } from 'wouter';
-import { useAuth } from '@/contexts/AuthContext';
-
 export function Header() {
   const { user } = useAuth();
 
