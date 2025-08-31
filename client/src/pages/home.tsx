@@ -6,6 +6,8 @@ import { ListingCard } from '@/components/ListingCard';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
+import { useRef } from 'react';
 
 export default function Home() {
   const { data: categories = [] } = useQuery({
