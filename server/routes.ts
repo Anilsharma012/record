@@ -165,6 +165,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Orders
   app.post('/api/orders/checkout', authenticate, checkout);
+  app.post('/api/orders/verify', authenticate, verify);
   app.post('/api/orders/webhook', webhook);
 
   // Chats
