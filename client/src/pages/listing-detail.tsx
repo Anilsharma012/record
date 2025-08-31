@@ -155,10 +155,36 @@ export default function ListingDetail() {
                       <Heart className="w-4 h-4 mr-2" />
                       Save
                     </Button>
-                    <Button variant="outline" size="sm" onClick={handleReport} data-testid="button-report">
-                      <Flag className="w-4 h-4 mr-2" />
-                      Report
-                    </Button>
+                    <Dialog open={open} onOpenChange={setOpen}>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="sm" data-testid="button-report">
+                          <Flag className="w-4 h-4 mr-2" />
+                          Report
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Report Listing</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-3">
+                          <Select value={reason} onValueChange={setReason}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a reason" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {(reasons || []).map((r: any) => (
+                                <SelectItem key={r._id} value={r.name}>{r.name}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <DialogFooter>
+                          <Button disabled={!reason || reportMutation.isPending} onClick={() => reportMutation.mutate()}>
+                            {reportMutation.isPending ? 'Submitting...' : 'Submit Report'}
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </div>
 
