@@ -27,7 +27,13 @@ export const deleteReport = async (req: Request, res: Response) => {
   res.json({ ok: true, data: { deleted: true } });
 };
 
-// Report reasons CRUD
+// Public reasons list
+export const listReportReasons = async (_req: Request, res: Response) => {
+  const reasons = await ReportReason.find({ isActive: true }).sort({ name: 1 });
+  res.json(reasons);
+};
+
+// Report reasons CRUD (admin)
 export const adminListReportReasons = async (_req: Request, res: Response) => {
   const reasons = await ReportReason.find().sort({ name: 1 });
   res.json({ ok: true, data: reasons });
