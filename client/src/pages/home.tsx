@@ -92,10 +92,10 @@ export default function Home() {
                 Popular Categories
               </h2>
               <div className="flex space-x-2">
-                <Button variant="ghost" size="sm" className="w-10 h-10 rounded-full" data-testid="button-categories-prev">
+                <Button variant="ghost" size="sm" className="w-10 h-10 rounded-full" data-testid="button-categories-prev" onClick={() => scrollBy(-240)}>
                   <ChevronLeft className="w-4 h-4" />
                 </Button>
-                <Button size="sm" className="w-10 h-10 rounded-full" data-testid="button-categories-next">
+                <Button size="sm" className="w-10 h-10 rounded-full" data-testid="button-categories-next" onClick={() => scrollBy(240)}>
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
