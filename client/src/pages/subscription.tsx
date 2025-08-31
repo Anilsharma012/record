@@ -30,8 +30,39 @@ export default function Subscription() {
 
   const checkoutMutation = useMutation({
     mutationFn: async () => {
-      const res = await apiRequest('POST', '/api/orders/checkout', { packageId: selection.packageId, price: computedPrice, cityId: selection.cityId || undefined, areaId: selection.areaId || undefined });
-      return res.json();
+      const res = await apiRequest('POST', '/api/orders/checkout', { packageId: selection.packageId, cityId: selection.cityId || undefined, areaId: selection.areaId || undefined });
+      const data = await res.json();
+
+      if (data.gateway === 'razorpay' && (window as any).Razorpay) {
+        return await new Promise((resolve, reject) => {
+          const rzp = new (window as any).Razorpay({
+            key: data.keyId,
+            amount: data.order.amount,
+            currency: data.order.currency,
+            name: 'Posttrr Subscriptions',
+            description: 'Package purchase',
+            order_id: data.order.id,
+            handler: async (response: any) => {
+              try {
+                const verifyRes = await apiRequest('POST', '/api/orders/verify', {
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  localOrderId: data.localOrderId
+                });
+                const verifyJson = await verifyRes.json();
+                resolve(verifyJson);
+              } catch (e) {
+                reject(e);
+              }
+            },
+            modal: { ondismiss: () => reject(new Error('Payment cancelled')) }
+          });
+          rzp.open();
+        });
+      }
+
+      return data;
     }
   });
 
