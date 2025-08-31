@@ -15,7 +15,6 @@ import {
   Home
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link, useLocation } from 'wouter';
 
 const sidebarItems = [
   {
