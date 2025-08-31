@@ -33,6 +33,11 @@ const sidebarItems = [
     icon: Users
   },
   {
+    title: 'Staff & Roles',
+    href: '/admin/staff',
+    icon: Users
+  },
+  {
     title: 'Categories',
     href: '/admin/categories',
     icon: Tag
