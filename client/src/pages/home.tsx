@@ -113,10 +113,10 @@ export default function Home() {
                 </div>
               </Link>
             </div>
-            <div className="md:hidden -mx-4 px-4 overflow-x-auto">
-              <div className="flex gap-3">
+            <div className="md:hidden -mx-4">
+              <div className="categories-strip">
                 {categories.map((category: any) => (
-                  <div key={category._id} className="min-w-[96px]">
+                  <div key={category._id} className="min-w-[96px] snap-start">
                     <CategoryCard category={category} adCount={Math.floor(Math.random() * 2000) + 100} />
                   </div>
                 ))}
