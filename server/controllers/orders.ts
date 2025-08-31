@@ -145,7 +145,8 @@ export const checkout = async (req: AuthRequest, res: Response) => {
 export const verify = async (req: AuthRequest, res: Response) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, localOrderId } = req.body as any;
-    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    const rpConf = await getGatewayCreds('razorpay');
+    const keySecret = (rpConf.creds as any)?.keySecret || process.env.RAZORPAY_KEY_SECRET;
     if (!keySecret) return res.status(400).json({ message: 'Gateway not configured' });
 
     const payload = `${razorpay_order_id}|${razorpay_payment_id}`;
