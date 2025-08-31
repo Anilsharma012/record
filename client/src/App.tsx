@@ -39,6 +39,7 @@ import AdminSettings from "@/pages/admin/settings";
 import AdminPages from "@/pages/admin/pages";
 import AdminPackages from "@/pages/admin/packages";
 import AdminPricing from "@/pages/admin/pricing";
+import AdminBanners from "@/pages/admin/banners";
 import Notifications from "@/pages/notifications";
 import Chat from "@/pages/chat";
 import Subscription from "@/pages/subscription";
