@@ -189,6 +189,21 @@ export async function seedDatabase() {
       { upsert: true }
     );
 
+    // Seed report reasons
+    try {
+      const { ReportReason } = await import('../models/ReportReason');
+      const reasons = [
+        { name: 'Spam', slug: 'spam' },
+        { name: 'Duplicate Listing', slug: 'duplicate' },
+        { name: 'Wrong Category', slug: 'wrong-category' },
+        { name: 'Scam or Fraud', slug: 'scam' },
+        { name: 'Offensive Content', slug: 'offensive' }
+      ];
+      for (const r of reasons) {
+        await ReportReason.findOneAndUpdate({ slug: r.slug }, { ...r, isActive: true }, { upsert: true });
+      }
+    } catch {}
+
     // Ensure seller has active Premium subscription
     try {
       const { Package } = await import('../models/Package');
