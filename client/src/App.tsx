@@ -98,6 +98,8 @@ function Router() {
       <Route path="/admin/packages" component={AdminPackages} />
       <Route path="/admin/pricing" component={AdminPricing} />
       <Route path="/admin/banners" component={AdminBanners} />
+      <Route path="/admin/gateways" component={AdminGateways} />
+      <Route path="/admin/transactions" component={AdminTransactions} />
       <Route path="/notifications" component={Notifications} />
       <Route path="/chat" component={Chat} />
       <Route path="/chat/:id" component={ChatThreadPage} />
