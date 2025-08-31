@@ -24,7 +24,7 @@ import { createReport, listReports, updateReport, deleteReport, adminListReportR
 import { trackClick, trackSave, adminAnalytics } from './controllers/analytics';
 import { getDashboardStats, updateListingStatus, adminListListings, adminCreateListing, adminUpdateListing, adminDeleteListing, moderateListing } from './controllers/admin';
 import { listPages, getPageBySlug, createPage, updatePage, deletePage, adminListPages } from './controllers/pages';
-import { checkout, webhook } from './controllers/orders';
+import { checkout, webhook, verify } from './controllers/orders';
 import { listBanners, adminListBanners, createBanner, updateBanner, deleteBanner } from './controllers/banners';
 import { adminListUsers, adminUpdateUser } from './controllers/users';
 import { openThread, listMessages, sendMessage, listThreads, markRead, unreadCount } from './controllers/chats';
