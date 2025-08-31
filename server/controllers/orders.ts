@@ -200,7 +200,8 @@ export const phonepeCallback = async (req: AuthRequest, res: Response) => {
 export const webhook = async (req: AuthRequest, res: Response) => {
   try {
     const signature = req.headers['x-razorpay-signature'] as string | undefined;
-    const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
+    const rpConf = await getGatewayCreds('razorpay');
+    const secret = ((rpConf.creds as any)?.webhookSecret || process.env.RAZORPAY_WEBHOOK_SECRET) as string | undefined;
     if (!signature || !secret) return res.json({ received: true });
 
     const body = JSON.stringify(req.body);
