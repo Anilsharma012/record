@@ -114,8 +114,9 @@ export const checkout = async (req: AuthRequest, res: Response) => {
     }
 
     // Fallback to Razorpay if configured
-    const keyId = process.env.RAZORPAY_KEY_ID;
-    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    const rpConf = await getGatewayCreds('razorpay');
+    const keyId = (rpConf.creds as any)?.keyId || process.env.RAZORPAY_KEY_ID;
+    const keySecret = (rpConf.creds as any)?.keySecret || process.env.RAZORPAY_KEY_SECRET;
     if (keyId && keySecret) {
       const auth = Buffer.from(`${keyId}:${keySecret}`).toString('base64');
       const r = await fetch('https://api.razorpay.com/v1/orders', {
