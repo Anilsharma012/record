@@ -28,6 +28,8 @@ import { checkout, webhook, verify, phonepeCallback, manual } from './controller
 import { listBanners, adminListBanners, createBanner, updateBanner, deleteBanner } from './controllers/banners';
 import { adminListUsers, adminUpdateUser } from './controllers/users';
 import { openThread, listMessages, sendMessage, listThreads, markRead, unreadCount } from './controllers/chats';
+import { adminListGateways, createGateway, updateGateway, deleteGateway, publicGateways } from './controllers/gateways';
+import { adminListTransactions, adminMarkPaid } from './controllers/transactions';
 
 // Middleware
 import { authenticate, requireAdmin } from './middleware/auth';
