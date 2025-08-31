@@ -71,6 +71,13 @@ export default function Subscription() {
     }
   });
 
+  const manualMutation = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest('POST', '/api/orders/manual', { packageId: selection.packageId, cityId: selection.cityId || undefined, areaId: selection.areaId || undefined });
+      return res.json();
+    }
+  });
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
