@@ -115,21 +115,33 @@ export const listingSchema = z.object({
   categoryId: z.string(),
   subcategoryId: z.string().optional(),
   location: locationSchema,
-  images: z.array(z.string()).default([]),
-  status: z.enum(['draft', 'active', 'sold', 'rejected']).default('draft'),
+  images: z.array(z.string()).min(1).max(10).default([]),
+  condition: z.string().optional(),
+  brand: z.string().optional(),
+  model: z.string().optional(),
+  year: z.number().optional(),
+  km: z.number().optional(),
+  bedrooms: z.number().optional(),
+  bathrooms: z.number().optional(),
+  negotiable: z.boolean().default(false),
+  tags: z.array(z.string()).default([]),
+  status: z.enum(['draft','pending','active','paused','sold','rejected','expired']).default('draft'),
   isFeatured: z.boolean().default(false),
   isUrgent: z.boolean().default(false),
   views: z.number().default(0),
+  favoritesCount: z.number().default(0),
+  rejectionReason: z.string().optional(),
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date())
 });
 
-export const insertListingSchema = listingSchema.omit({ 
-  _id: true, 
+export const insertListingSchema = listingSchema.omit({
+  _id: true,
   slug: true,
   views: true,
-  createdAt: true, 
-  updatedAt: true 
+  favoritesCount: true,
+  createdAt: true,
+  updatedAt: true
 });
 
 // Package schemas

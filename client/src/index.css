@@ -4,6 +4,17 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body { overflow-x: hidden !important; }
+.container-mobile { max-width: 430px; margin: 0 auto; }
+.categories-strip { display: flex; gap: 12px; overflow-x: auto; padding: 0 12px; scroll-snap-type: x proximity; }
+.categories-strip::-webkit-scrollbar { display: none; }
+.listing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 12px 12px; }
+.card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 12px; }
+.search-row { display: grid; grid-template-columns: 1fr 44px 44px; gap: 8px; padding: 0 12px; }
+.icon-btn { width: 44px; height: 44px; border: 1px solid #E9E9E9; border-radius: 10px; display: grid; place-items: center; }
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; height: 60px; border-top: 1px solid #E9E9E9; background: #fff; padding-bottom: env(safe-area-inset-bottom); z-index: 50; }
+.fab { position: fixed; bottom: 78px; left: 50%; transform: translateX(-50%); width: 56px; height: 56px; border-radius: 9999px; background: #0D6EFD; color: #fff; display: grid; place-items: center; box-shadow: 0 10px 24px rgba(13,110,253,.35); z-index: 60; }
+
 :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(222 84% 5%);
@@ -11,27 +22,27 @@
   --card-foreground: hsl(222 84% 5%);
   --popover: hsl(0 0% 100%);
   --popover-foreground: hsl(222 84% 5%);
-  --primary: hsl(214 100% 59%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(210 40% 96%);
-  --secondary-foreground: hsl(222 84% 5%);
-  --muted: hsl(210 40% 96%);
-  --muted-foreground: hsl(215 16% 47%);
-  --accent: hsl(210 40% 96%);
-  --accent-foreground: hsl(222 84% 5%);
+  --primary: #0D6EFD; /* Primary Blue */
+  --primary-foreground: #FFFFFF;
+  --secondary: #F2F4F7;
+  --secondary-foreground: #000000;
+  --muted: #F2F4F7;
+  --muted-foreground: #6B6B6B; /* Grey text */
+  --accent: #F2F4F7;
+  --accent-foreground: #000000;
   --destructive: hsl(0 84% 60%);
-  --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(214 32% 91%);
-  --input: hsl(214 32% 91%);
-  --ring: hsl(214 100% 59%);
-  --sidebar: hsl(180 6.6667% 97.0588%);
-  --sidebar-foreground: hsl(210 25% 7.8431%);
-  --sidebar-primary: hsl(214 100% 59%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(210 40% 96%);
-  --sidebar-accent-foreground: hsl(214 100% 59%);
-  --sidebar-border: hsl(214 32% 91%);
-  --sidebar-ring: hsl(214 100% 59%);
+  --destructive-foreground: #FFFFFF;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #0D6EFD;
+  --sidebar: #F7F8F8;
+  --sidebar-foreground: #0B0B0B;
+  --sidebar-primary: #0D6EFD;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F2F4F7;
+  --sidebar-accent-foreground: #0D6EFD;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #0D6EFD;
   --font-sans: 'Inter', sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: 'Fira Code', monospace;
@@ -84,7 +95,7 @@
 
 @layer components {
   .hero-gradient {
-    background: linear-gradient(135deg, hsl(214 100% 59%) 0%, hsl(207 90% 54%) 100%);
+    background: linear-gradient(135deg, #0D6EFD 0%, #0A36C8 100%);
   }
   
   .category-hover:hover {

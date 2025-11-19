@@ -8,7 +8,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
     const totalUsers = await User.countDocuments({ role: 'user' });
     const totalAds = await Listing.countDocuments();
     const activeAds = await Listing.countDocuments({ status: 'active' });
-    const pendingAds = await Listing.countDocuments({ status: 'draft' });
+    const pendingAds = await Listing.countDocuments({ status: { $in: ['pending', 'draft'] } });
 
     const recentAds = await Listing.find()
       .populate('userId', 'name email')
@@ -33,11 +33,11 @@ export const getDashboardStats = async (req: Request, res: Response) => {
 export const updateListingStatus = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { status, isFeatured, isUrgent } = req.body;
+    const { status, isFeatured, isUrgent, rejectionReason } = req.body;
 
     const listing = await Listing.findByIdAndUpdate(
       id,
-      { status, isFeatured, isUrgent },
+      { status, isFeatured, isUrgent, rejectionReason },
       { new: true }
     ).populate('userId', 'name email');
 

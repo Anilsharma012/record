@@ -15,14 +15,25 @@ const listingSchema = new mongoose.Schema({
     pincode: String
   },
   images: [{ type: String }],
-  status: { 
-    type: String, 
-    enum: ['draft', 'active', 'sold', 'rejected'], 
-    default: 'draft' 
+  condition: String,
+  brand: String,
+  model: String,
+  year: Number,
+  km: Number,
+  bedrooms: Number,
+  bathrooms: Number,
+  negotiable: { type: Boolean, default: false },
+  tags: [{ type: String }],
+  status: {
+    type: String,
+    enum: ['draft','pending','active','paused','sold','rejected','expired'],
+    default: 'draft'
   },
   isFeatured: { type: Boolean, default: false },
   isUrgent: { type: Boolean, default: false },
   views: { type: Number, default: 0 },
+  favoritesCount: { type: Number, default: 0 },
+  rejectionReason: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

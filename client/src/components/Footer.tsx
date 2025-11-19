@@ -4,7 +4,7 @@ import { Download } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-white">
+    <footer className="bg-[#0A36C8] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -37,7 +37,7 @@ export function Footer() {
           {/* Popular Locations */}
           <div>
             <h3 className="text-white font-semibold mb-4" data-testid="text-footer-locations-title">Popular Locations</h3>
-            <ul className="space-y-2 text-sm text-white/80">
+            <ul className="space-y-2 text-[14px] text-white/80">
               <li><Link to="/location/kolkata" className="hover:text-white transition-colors" data-testid="link-location-kolkata">Kolkata</Link></li>
               <li><Link to="/location/mumbai" className="hover:text-white transition-colors" data-testid="link-location-mumbai">Mumbai</Link></li>
               <li><Link to="/location/chennai" className="hover:text-white transition-colors" data-testid="link-location-chennai">Chennai</Link></li>
@@ -50,7 +50,7 @@ export function Footer() {
           {/* Quick Links */}
           <div>
             <h3 className="text-white font-semibold mb-4" data-testid="text-footer-quicklinks-title">Quick Links</h3>
-            <ul className="space-y-2 text-sm text-white/80">
+            <ul className="space-y-2 text-[14px] text-white/80">
               <li><Link to="/about" className="hover:text-white transition-colors" data-testid="link-about">About Us</Link></li>
               <li><Link to="/contact" className="hover:text-white transition-colors" data-testid="link-contact">Contact Us</Link></li>
               <li><Link to="/subscription" className="hover:text-white transition-colors" data-testid="link-footer-subscription">Subscription</Link></li>
@@ -63,7 +63,7 @@ export function Footer() {
           {/* Support */}
           <div>
             <h3 className="text-white font-semibold mb-4" data-testid="text-footer-support-title">Posttrr</h3>
-            <ul className="space-y-2 text-sm text-white/80">
+            <ul className="space-y-2 text-[14px] text-white/80">
               <li><Link to="/blog" className="hover:text-white transition-colors" data-testid="link-footer-blog">Blog</Link></li>
               <li><Link to="/help" className="hover:text-white transition-colors" data-testid="link-help">Help</Link></li>
               <li><Link to="/sitemap" className="hover:text-white transition-colors" data-testid="link-sitemap">Sitemap</Link></li>

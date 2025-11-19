@@ -33,6 +33,11 @@ const sidebarItems = [
     icon: Users
   },
   {
+    title: 'Staff & Roles',
+    href: '/admin/staff',
+    icon: Users
+  },
+  {
     title: 'Categories',
     href: '/admin/categories',
     icon: Tag
@@ -46,6 +51,16 @@ const sidebarItems = [
     title: 'Reports',
     href: '/admin/reports',
     icon: Flag
+  },
+  {
+    title: 'Transactions',
+    href: '/admin/transactions',
+    icon: BarChart
+  },
+  {
+    title: 'Payment Gateways',
+    href: '/admin/gateways',
+    icon: Settings
   },
   {
     title: 'Packages & Pricing',
@@ -63,6 +78,11 @@ const sidebarItems = [
     icon: Bell
   },
   {
+    title: 'Promotions',
+    href: '/admin/promotions',
+    icon: Tag
+  },
+  {
     title: 'Analytics',
     href: '/admin/analytics',
     icon: BarChart
@@ -76,6 +96,11 @@ const sidebarItems = [
     title: 'Pages',
     href: '/admin/pages',
     icon: FileText
+  },
+  {
+    title: 'Banners',
+    href: '/admin/banners',
+    icon: Home
   }
 ];
 

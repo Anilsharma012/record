@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { CategoryCard } from '@/components/CategoryCard';
@@ -6,11 +5,17 @@ import { ListingCard } from '@/components/ListingCard';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
+import { useRef } from 'react';
 
 export default function Home() {
   const { data: categories = [] } = useQuery({
     queryKey: ['/api/categories']
   });
+  const stripRef = useRef<HTMLDivElement | null>(null);
+  const scrollBy = (dx: number) => {
+    if (stripRef.current) stripRef.current.scrollBy({ left: dx, behavior: 'smooth' });
+  };
 
   const { data: featuredListings = [] } = useQuery({
     queryKey: ['/api/listings/featured']
@@ -86,24 +91,23 @@ export default function Home() {
                 Popular Categories
               </h2>
               <div className="flex space-x-2">
-                <Button variant="ghost" size="sm" className="w-10 h-10 rounded-full" data-testid="button-categories-prev">
+                <Button variant="ghost" size="sm" className="w-10 h-10 rounded-full" data-testid="button-categories-prev" onClick={() => scrollBy(-240)}>
                   <ChevronLeft className="w-4 h-4" />
                 </Button>
-                <Button size="sm" className="w-10 h-10 rounded-full" data-testid="button-categories-next">
+                <Button size="sm" className="w-10 h-10 rounded-full" data-testid="button-categories-next" onClick={() => scrollBy(240)}>
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
+            <div className="hidden md:grid grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
               {categories.map((category: any) => (
-                <CategoryCard 
-                  key={category._id} 
-                  category={category} 
+                <CategoryCard
+                  key={category._id}
+                  category={category}
                   adCount={Math.floor(Math.random() * 2000) + 100}
                 />
               ))}
-              
               <Link to="/categories" data-testid="link-view-all-categories">
                 <div className="category-hover bg-muted rounded-xl p-6 text-center border border-border hover:shadow-md transition-all">
                   <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
@@ -113,6 +117,15 @@ export default function Home() {
                   <p className="text-xs text-muted-foreground">Categories</p>
                 </div>
               </Link>
+            </div>
+            <div className="md:hidden -mx-4">
+              <div className="categories-strip" ref={stripRef}>
+                {categories.map((category: any) => (
+                  <div key={category._id} className="min-w-[96px] snap-start">
+                    <CategoryCard category={category} adCount={Math.floor(Math.random() * 2000) + 100} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -134,7 +147,7 @@ export default function Home() {
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {featuredListings.slice(0, 4).map((listing: any) => (
                 <ListingCard 
                   key={listing._id} 
@@ -163,7 +176,7 @@ export default function Home() {
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {recentListings.map((listing: any) => (
                 <ListingCard 
                   key={listing._id} 

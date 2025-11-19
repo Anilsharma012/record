@@ -43,6 +43,7 @@ export const getListings = async (req: Request, res: Response) => {
     const sortOptions: any = {};
     if (sort === 'price_low') sortOptions.price = 1;
     else if (sort === 'price_high') sortOptions.price = -1;
+    else if (sort === 'popular') sortOptions.views = -1;
     else sortOptions.createdAt = -1;
 
     const skip = (Number(page) - 1) * Number(limit);
@@ -100,6 +101,8 @@ export const createListing = async (req: AuthRequest, res: Response) => {
 
     const listing = new Listing({
       ...validatedData,
+      // if client sends 'active' treat as 'pending' for moderation
+      status: validatedData.status === 'active' ? 'pending' : validatedData.status,
       userId: req.user._id
     });
 
@@ -157,9 +160,9 @@ export const deleteListing = async (req: AuthRequest, res: Response) => {
 
 export const getFeaturedListings = async (req: Request, res: Response) => {
   try {
-    const listings = await Listing.find({ 
-      status: 'active', 
-      isFeatured: true 
+    const listings = await Listing.find({
+      status: 'active',
+      isFeatured: true
     })
       .populate('userId', 'name avatar')
       .populate('categoryId', 'name')
@@ -167,6 +170,19 @@ export const getFeaturedListings = async (req: Request, res: Response) => {
       .limit(8);
 
     res.json(listings);
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const reportListing = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body || {};
+    const { Report } = await import('../models/Report');
+    const report = new Report({ listingId: id, reason, reporterId: req.user._id });
+    await report.save();
+    res.status(201).json({ ok: true, data: report });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }

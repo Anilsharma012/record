@@ -7,25 +7,29 @@ import { initRealtime } from './realtime';
 
 // Controllers
 import { register, login, logout, getProfile, updateProfile } from './controllers/auth';
-import { 
-  getListings, 
-  getListing, 
-  createListing, 
-  updateListing, 
+import {
+  getListings,
+  getListing,
+  createListing,
+  updateListing,
   deleteListing,
-  getFeaturedListings
+  getFeaturedListings,
+  reportListing
 } from './controllers/listings';
+import { toggleFavorite, listFavorites } from './controllers/favorites';
 import { getCategories, getSubcategories, createCategory, updateCategory, deleteCategory, createSubcategory, updateSubcategory, deleteSubcategory, adminGetCategories, adminListSubcategories } from './controllers/categories';
 import { getCities, getAreas, createCity, updateCity, deleteCity, createArea, updateArea, deleteArea, adminGetCities, adminGetAreas, adminGetCountries, createCountry, updateCountry, deleteCountry, adminGetStates, createState, updateState, deleteState } from './controllers/locations';
 import { listPackages, listPricingRules, createPackage, updatePackage, deletePackage, createPriceRule, updatePriceRule, deletePriceRule, adminListPackages, adminListPricingRules } from './controllers/packages';
-import { createReport, listReports, updateReport, deleteReport, adminListReportReasons, createReportReason, updateReportReason, deleteReportReason } from './controllers/reports';
+import { createReport, listReports, updateReport, deleteReport, listReportReasons, adminListReportReasons, createReportReason, updateReportReason, deleteReportReason } from './controllers/reports';
 import { trackClick, trackSave, adminAnalytics } from './controllers/analytics';
 import { getDashboardStats, updateListingStatus, adminListListings, adminCreateListing, adminUpdateListing, adminDeleteListing, moderateListing } from './controllers/admin';
 import { listPages, getPageBySlug, createPage, updatePage, deletePage, adminListPages } from './controllers/pages';
-import { checkout, webhook } from './controllers/orders';
+import { checkout, webhook, verify, phonepeCallback, manual } from './controllers/orders';
 import { listBanners, adminListBanners, createBanner, updateBanner, deleteBanner } from './controllers/banners';
 import { adminListUsers, adminUpdateUser } from './controllers/users';
 import { openThread, listMessages, sendMessage, listThreads, markRead, unreadCount } from './controllers/chats';
+import { adminListGateways, createGateway, updateGateway, deleteGateway, publicGateways } from './controllers/gateways';
+import { adminListTransactions, adminMarkPaid } from './controllers/transactions';
 
 // Middleware
 import { authenticate, requireAdmin } from './middleware/auth';
@@ -37,6 +41,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Middleware
   app.use(cookieParser());
+
+  // Health
+  app.get('/api/ping', (_req, res) => res.send('pong'));
+  app.get('/api/health', async (_req, res) => {
+    try {
+      const { mongoose } = await import('./utils/database');
+      const dbOk = mongoose.connection.readyState === 1;
+      res.json({ ok: true, dbOk });
+    } catch (e: any) {
+      res.status(500).json({ ok: false, message: e.message });
+    }
+  });
 
   // Auth routes
   app.post('/api/auth/register', register);
@@ -52,11 +68,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/locations/areas', getAreas);
   app.get('/api/packages', listPackages);
   app.get('/api/pricing/rules', listPricingRules);
+  app.get('/api/gateways/public', publicGateways);
   app.get('/api/listings', getListings);
   app.get('/api/listings/featured', getFeaturedListings);
   app.get('/api/listings/:id', getListing);
+  app.post('/api/listings/:id/favorite', authenticate, toggleFavorite);
+  app.get('/api/users/me/favorites', authenticate, listFavorites);
+  app.post('/api/listings/:id/report', authenticate, reportListing);
   app.get('/api/banners', listBanners);
   app.post('/api/reports', authenticate, createReport);
+  app.get('/api/reports/reasons', listReportReasons);
   app.post('/api/analytics/click', trackClick);
   app.post('/api/analytics/save', trackSave);
 
@@ -71,6 +92,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Admin routes
   app.get('/api/admin/dashboard', authenticate, requireAdmin, getDashboardStats);
+  app.get('/api/admin/gateways', authenticate, requireAdmin, adminListGateways);
+  app.post('/api/admin/gateways', authenticate, requireAdmin, createGateway);
+  app.put('/api/admin/gateways/:id', authenticate, requireAdmin, updateGateway);
+  app.delete('/api/admin/gateways/:id', authenticate, requireAdmin, deleteGateway);
+  app.get('/api/admin/transactions', authenticate, requireAdmin, adminListTransactions);
+  app.put('/api/admin/transactions/:id/mark-paid', authenticate, requireAdmin, adminMarkPaid);
   app.get('/api/admin/analytics', authenticate, requireAdmin, adminAnalytics);
 
   // Admin: reports & reasons
@@ -148,6 +175,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Orders
   app.post('/api/orders/checkout', authenticate, checkout);
+  app.post('/api/orders/manual', authenticate, manual);
+  app.post('/api/orders/verify', authenticate, verify);
+  app.post('/api/orders/phonepe/callback', phonepeCallback);
+  app.get('/api/orders/phonepe/callback', phonepeCallback);
   app.post('/api/orders/webhook', webhook);
 
   // Chats

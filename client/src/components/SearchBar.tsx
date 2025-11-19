@@ -15,15 +15,15 @@ export function SearchBar() {
     const params = new URLSearchParams();
     
     if (searchQuery) params.set('search', searchQuery);
-    if (selectedCategory) params.set('category', selectedCategory);
-    
+    if (selectedCategory && selectedCategory !== 'all') params.set('category', selectedCategory);
+
     setLocation(`/listings${params.toString() ? `?${params.toString()}` : ''}`);
   };
 
   return (
-    <form onSubmit={handleSearch} className="flex bg-white rounded-lg overflow-hidden shadow-sm" data-testid="form-search">
+    <form onSubmit={handleSearch} className="flex bg-white rounded-full overflow-hidden shadow-sm h-10" data-testid="form-search">
       <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-        <SelectTrigger className="bg-white border-0 rounded-none w-48 focus:ring-2 focus:ring-primary" data-testid="select-category">
+        <SelectTrigger className="bg-white border-0 rounded-none w-44 h-10 text-sm" data-testid="select-category">
           <SelectValue placeholder="All Categories" />
         </SelectTrigger>
         <SelectContent>
@@ -36,24 +36,25 @@ export function SearchBar() {
           <SelectItem value="jobs">Jobs</SelectItem>
         </SelectContent>
       </Select>
-      
+
       <div className="w-px bg-border"></div>
-      
+
       <Input
         type="text"
         placeholder="Search 'Furniture'"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="flex-1 border-0 rounded-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="flex-1 border-0 rounded-none h-10 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
         data-testid="input-search"
       />
-      
-      <Button 
+
+      <Button
         type="submit"
-        className="bg-primary hover:bg-primary/90 text-white rounded-none px-6"
+        className="bg-primary hover:bg-primary/90 text-white rounded-none px-4 h-10 text-sm font-semibold"
         data-testid="button-search"
       >
-        <Search className="w-4 h-4" />
+        <Search className="w-4 h-4 mr-2" />
+        Search
       </Button>
     </form>
   );

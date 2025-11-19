@@ -39,6 +39,11 @@ import AdminSettings from "@/pages/admin/settings";
 import AdminPages from "@/pages/admin/pages";
 import AdminPackages from "@/pages/admin/packages";
 import AdminPricing from "@/pages/admin/pricing";
+import AdminBanners from "@/pages/admin/banners";
+import AdminPromotions from "@/pages/admin/promotions";
+import AdminStaff from "@/pages/admin/staff";
+import AdminGateways from "@/pages/admin/gateways";
+import AdminTransactions from "@/pages/admin/transactions";
 import Notifications from "@/pages/notifications";
 import Chat from "@/pages/chat";
 import Subscription from "@/pages/subscription";
@@ -47,6 +52,9 @@ import Favorites from "@/pages/favorites";
 import Transactions from "@/pages/transactions";
 import Reviews from "@/pages/reviews";
 import ChatThreadPage from "@/pages/chat-thread";
+import BottomNav from "@/components/BottomNav";
+import Fab from "@/components/Fab";
+import PWAInstall from "@/components/PWAInstall";
 
 function Router() {
   return (
@@ -78,15 +86,20 @@ function Router() {
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/ads" component={AdsManagement} />
       <Route path="/admin/users" component={UsersManagement} />
+      <Route path="/admin/staff" component={AdminStaff} />
       <Route path="/admin/categories" component={AdminCategories} />
       <Route path="/admin/locations" component={AdminLocations} />
       <Route path="/admin/reports" component={AdminReports} />
       <Route path="/admin/notifications" component={AdminNotifications} />
+      <Route path="/admin/promotions" component={AdminPromotions} />
       <Route path="/admin/analytics" component={AdminAnalytics} />
       <Route path="/admin/settings" component={AdminSettings} />
       <Route path="/admin/pages" component={AdminPages} />
       <Route path="/admin/packages" component={AdminPackages} />
       <Route path="/admin/pricing" component={AdminPricing} />
+      <Route path="/admin/banners" component={AdminBanners} />
+      <Route path="/admin/gateways" component={AdminGateways} />
+      <Route path="/admin/transactions" component={AdminTransactions} />
       <Route path="/notifications" component={Notifications} />
       <Route path="/chat" component={Chat} />
       <Route path="/chat/:id" component={ChatThreadPage} />
@@ -110,6 +123,9 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <Fab />
+          <PWAInstall />
+          <BottomNav />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
